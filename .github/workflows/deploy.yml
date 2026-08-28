@@ -1,38 +1,78 @@
-name : Deploy react project
+# name : Deploy react project
 
-on :
-    push :
-        branches :
-              - main
+# on :
+#     push :
+#         branches :
+#               - main
 
-jobs :
-    build-deploy  :
-            runs-on : ubuntu-latest
+# jobs :
+#     build-deploy  :
+#             runs-on : ubuntu-latest
 
-            steps :
-                  #checkout the repo
-                  - name : Checkout code
-                    uses : actions/checkout@v3
+#             steps :
+#                   #checkout the repo
+#                   - name : Checkout code
+#                     uses : actions/checkout@v3
 
-                  #checkout the repo
-                  - name : Setup Node
-                    uses : actions/setup-node@v3
-                    with :
-                          node-version: 18
+#                   #checkout the repo
+#                   - name : Setup Node
+#                     uses : actions/setup-node@v3
+#                     with :
+#                           node-version: 18
 
-                  #indtall depene
-                  - name : Install dependencies
-                    run : npm install 
+#                   #indtall depene
+#                   - name : Install dependencies
+#                     run : npm install 
 
-                  #build the projct
+#                   #build the projct
 
-                  - name : build applicaiton
-                    run : npm run build 
+#                   - name : build applicaiton
+#                     run : npm run build 
 
-                  # deploay the pages
-                  - name : Deploy to Github pages
-                    uses: peaceiris/actions-gh-pages@v4
-                    with : 
-                        github_token : ${{secrets.GITHUB_TOKEN}}
-                        publish_dir : dist
+#                   # deploay the pages
+#                   - name : Deploy to Github pages
+#                     uses: peaceiris/actions-gh-pages@v4
+#                     with : 
+#                         github_token : ${{secrets.GITHUB_TOKEN}}
+#                         publish_dir : dist
                 
+
+name: Deploy React Project
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the project
+      - name: Build application
+        run: npm run build
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
